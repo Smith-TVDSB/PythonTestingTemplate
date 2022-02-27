@@ -3,7 +3,7 @@ import student
 
 
 
-def test_inputs():
+def test_inputs_specific_output():
     input_values=['3','4']
     output=[]
 
@@ -22,6 +22,22 @@ def test_inputs():
 
     assert output[2]==7
 
+def test_inputs_all_output(capsys):
+    input_values=['3','4']
+    output=[]
+
+    def mock_input(s=None):
+        if s is not None:
+            output.append(s)
+            return input_values.pop(0)
+        else:
+            output.append("")
+            return input_values.pop(0)
+    
+    student.input = mock_input
+    student.main()
+    out,err =  capsys.readouterr()
+    assert "7" in out
 
 
 
